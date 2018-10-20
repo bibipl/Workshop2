@@ -9,13 +9,13 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
 
-        /*UserGroup usG = new UserGroup("Grupa nr4, ktora bedzie sie uczyc pisac i czytac.");
+ /*       *//*UserGroup usG = new UserGroup("Grupa nr4, ktora bedzie sie uczyc pisac i czytac.");
         try (Connection connection = DbUtil.getConnection()) {
             usG.saveToDB(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-*/
+*//*
         // test   load all oraz modyfikuj.
         try (Connection connection = DbUtil.getConnection()) {
             UserGroup[] allUsG = UserGroup.loadAllUserGroups(connection);
@@ -32,7 +32,7 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+*/
 /*
 //test : dodaj użytkownika
         User user = new User("Michal Kop", "m.kop@gazeta.pl", "blabla", userGroup);
