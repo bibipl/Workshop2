@@ -31,7 +31,7 @@ public class UserGroup {
 
     public void saveToDB(Connection conn) throws SQLException {
         if (this.id == 0) {
-            String sql = "INSERT INTO user_groups(name) VALUES (?)";
+            String sql = "INSERT INTO user_group(name) VALUES (?)";
             String[] generatedColumns = {"ID"};
             PreparedStatement preparedStatement = conn.prepareStatement(sql, generatedColumns);
             preparedStatement.setString(1, this.name);
@@ -41,7 +41,7 @@ public class UserGroup {
                 this.id = rs.getInt(1);
             }
         } else {
-            String sql = "UPDATE user_groups SET name=? where id = ?";
+            String sql = "UPDATE user_group SET name=? where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, this.name);
             preparedStatement.setInt(2, this.id);
@@ -49,7 +49,7 @@ public class UserGroup {
         }
     }
     static public UserGroup loadUserGroupById(Connection conn, int id) throws SQLException {
-        String sql = "SELECT * FROM user_groups where id=?";
+        String sql = "SELECT * FROM user_group where id=?";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -62,7 +62,7 @@ public class UserGroup {
 
     static public UserGroup[] loadAllUserGroups (Connection conn) throws SQLException {
         ArrayList<UserGroup> userGroups = new ArrayList<UserGroup>();
-        String sql = "SELECT * FROM user_groups";
+        String sql = "SELECT * FROM user_group";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
@@ -77,7 +77,7 @@ public class UserGroup {
   // usuń userGroup zBD
     public void delete(Connection conn) throws SQLException {
         if (this.id != 0) {
-            String sql = "DELETE FROM user_groups WHERE id=?";
+            String sql = "DELETE FROM user_group WHERE id=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, this.id);
             preparedStatement.executeUpdate();
