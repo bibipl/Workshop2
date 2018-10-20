@@ -115,6 +115,7 @@ public class User {
             loadedUser.email = resultSet.getString("email");
             int usrGoup = resultSet.getInt("user_group_id");        // z user pobranie nr grupy
             loadedUser.userGroup = UserGroup.loadUserGroupById(conn, usrGoup);   // z user group wczytanie całej grupy
+            users.add(loadedUser);
         }
         User[] uArray = new User[users.size()];
         uArray = users.toArray(uArray);
