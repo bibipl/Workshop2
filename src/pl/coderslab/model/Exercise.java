@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+// CREATE TABLE exercise (id int AUTO_INCREMENT PRIMARY KEY, title varchar(255), description text) default character set utf8 collate utf8_polish_ci;
+
 public class Exercise {
     private int id;
     private String title;
@@ -48,7 +50,7 @@ public class Exercise {
             String[] generatedColumns = {"ID"};
             PreparedStatement preparedStatement = conn.prepareStatement(sql, generatedColumns);
             preparedStatement.setString(1, this.title);
-            preparedStatement.setString(1, this.description);
+            preparedStatement.setString(2, this.description);
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {
@@ -112,8 +114,8 @@ public class Exercise {
         return "Exercise{" +
                 "id=" + id +
                 "}, title='" + title +
-                " | dercription : " + description +
-                ";";
+                "' | description : '" + description +
+                "';";
     }
 
 

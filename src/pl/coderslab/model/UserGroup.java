@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+//CREATE TABLE user_group(id int AUTO_INCREMENT, name varchar(255), PRIMARY KEY(id)) default character set utf8 collate utf8_polish_ci;
 
 public class UserGroup {
     int id;

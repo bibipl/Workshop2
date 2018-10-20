@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+// CREATE TABLE users (id BIGINT(20) AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), email VARCHAR(255), password VARCHAR(245), user_group_id int, FOREIGN KEY(user_group_id) REFERENCES user_group(id)) default character set utf8 collate utf8_polish_ci;
+
 public class User {
 // pola z tabeli BD
     private int id;

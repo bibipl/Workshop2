@@ -7,16 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 
-public class Solution {
-// CREATE TABLE solution(id int AUTO_INCREMENT PRIMARY KEY, created DATETIME, updated DATETIME, description text, exercise_id int NOT NULL, users_id BIGINT(20)
-// NOT NULL,FOREIGN KEY(exercise_id) REFERENCES exercise(id), FOREIGN KEY(users_id) REFERENCES users(id));
+// pobranie wszystkich rozwiązań danego użytkownika (dopisz metodę loadAllByUserId do klasy Solution),
 
-    // pola z tabeli BD
+public class Solution {
+//CREATE TABLE solution (id int AUTO_INCREMENT PRIMARY KEY, created DATETIME, updated DATETIME, description text, exercise_id int NOT NULL, users_id BIGINT(20) NOT NULL,FOREIGN KEY(exercise_id) REFERENCES exercise(id), FOREIGN KEY(users_id) REFERENCES users(id)) default character set utf8 collate utf8_polish_ci;
+
     private int id;
     private Date created;
     private Date updated;
     private String description;
-    private int excerciseId;
+    private int exerciseId;
     private int usersId;
 
     public Solution() {
@@ -26,7 +26,7 @@ public class Solution {
         this.created = created;
         this.updated = updated;
         this.description = description;
-        this.excerciseId = excercise_id;
+        this.exerciseId = excercise_id;
         this.usersId = usersId;
     }
 
@@ -56,10 +56,10 @@ public class Solution {
     }
 
     public int getExcercise_id() {
-        return excerciseId;
+        return exerciseId;
     }
     public void setExcercise_id(int excercise_id) {
-        this.excerciseId = excercise_id;
+        this.exerciseId = excercise_id;
     }
 
     public int getUsersId() {
@@ -72,13 +72,13 @@ public class Solution {
     // Zapisz do  BD zapisuje nowy element do BD ub zmodyfikowany element. Poznajmy po id==0
     public void saveToDB(Connection conn) throws SQLException {
         if (this.id == 0) {
-            String sql = "INSERT INTO solution(created, updated, description, exerciseId, usersId) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO solution(created, updated, description, exercise_id, users_id) VALUES (?, ?, ?, ?, ?)";
             String[] generatedColumns = {"ID"};
             PreparedStatement preparedStatement = conn.prepareStatement(sql, generatedColumns);
             preparedStatement.setDate(1, this.created);
             preparedStatement.setDate(2, this.updated);
             preparedStatement.setString(3, this.description);
-            preparedStatement.setInt(4, this.excerciseId);
+            preparedStatement.setInt(4, this.exerciseId);
             preparedStatement.setInt(5, this.usersId);
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -86,12 +86,12 @@ public class Solution {
                 this.id = rs.getInt(1);
             }
         } else {
-            String sql = "UPDATE solution SET created=?, updated=?, description=?, exercise_id=?, users_id=? where id = ?";
+            String sql = "UPDATE solution SET created=?, updated=?, description=?, excercise_id=?, users_id=? where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setDate(1, this.created);
             preparedStatement.setDate(2, this.updated);
             preparedStatement.setString(3, this.description);
-            preparedStatement.setInt(4, this.excerciseId); // pobieramy z pola GR ident GRid
+            preparedStatement.setInt(4, this.exerciseId); // pobieramy z pola GR ident GRid
             preparedStatement.setInt(5, this.usersId); // pobieramy z pola GR ident GRid
             preparedStatement.setInt(6, this.id); // pobieramy z pola GR ident GRid
             preparedStatement.executeUpdate();
@@ -110,7 +110,7 @@ public class Solution {
             loadedSolution.created = resultSet.getDate("created");
             loadedSolution.updated = resultSet.getDate("updated");
             loadedSolution.description = resultSet.getString("description");
-            loadedSolution.excerciseId = resultSet.getInt("exercise_id");
+            loadedSolution.exerciseId = resultSet.getInt("exercise_id");
             loadedSolution.usersId = resultSet.getInt("users_id");
             return loadedSolution;}
         return null;}
@@ -127,7 +127,7 @@ public class Solution {
             loadedSolution.created = resultSet.getDate("created");
             loadedSolution.updated = resultSet.getDate("updated");
             loadedSolution.description = resultSet.getString("description");
-            loadedSolution.excerciseId = resultSet.getInt("exercise_id");
+            loadedSolution.exerciseId = resultSet.getInt("exercise_id");
             loadedSolution.usersId = resultSet.getInt("users_id");
             solutions.add(loadedSolution);
         }
@@ -146,6 +146,11 @@ public class Solution {
         }
     }
 
+    static public Solution[] loadAllByUserId (Connection conn, int user_id) {
+        Solution[] tab = new Solution[20];
+        return tab;
+    }
+
 
     @Override
     public String toString() {
@@ -154,7 +159,7 @@ public class Solution {
                 "}, created='" + created + '\'' +
                 ", updated='" + updated + '\'' +
                 ", description='" + description + '\'' +
-                ", exercise_id ='"+ excerciseId + '\'' +
+                ", exercise_id ='"+ exerciseId + '\'' +
                 ", users_id ='"+usersId + '\'' +
                 '}';
     }
