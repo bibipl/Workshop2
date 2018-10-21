@@ -1,5 +1,7 @@
 package pl.coderslab.model;
 
+import pl.coderslab.util.DbUtil;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,18 +18,18 @@ public class Solution {
     private Date created;
     private Date updated;
     private String description;
-    private int exerciseId;
-    private int usersId;
+    private Exercise exercise;
+    private User user;
 
     public Solution() {
     }
 
-    public Solution(Date created, Date updated, String description, int excercise_id, int usersId) {
+    public Solution(Date created, Date updated, String description, Exercise excercise, User user) {
         this.created = created;
         this.updated = updated;
         this.description = description;
-        this.exerciseId = excercise_id;
-        this.usersId = usersId;
+        this.exercise = excercise;
+        this.user = user;
     }
 
     public int getId() {
@@ -56,17 +58,17 @@ public class Solution {
     }
 
     public int getExcercise_id() {
-        return exerciseId;
+        return exercise;
     }
     public void setExcercise_id(int excercise_id) {
-        this.exerciseId = excercise_id;
+        this.exercise = excercise_id;
     }
 
-    public int getUsersId() {
-        return usersId;
+    public User getUser() {
+        return user;
     }
-    public void setUsersId(int usersId) {
-        this.usersId = usersId;
+    public void setUser(User users) {
+        this.user = user;
     }
 
     // Zapisz do  BD zapisuje nowy element do BD ub zmodyfikowany element. Poznajmy po id==0
@@ -78,8 +80,8 @@ public class Solution {
             preparedStatement.setDate(1, this.created);
             preparedStatement.setDate(2, this.updated);
             preparedStatement.setString(3, this.description);
-            preparedStatement.setInt(4, this.exerciseId);
-            preparedStatement.setInt(5, this.usersId);
+            preparedStatement.setInt(4, this.exercise.getId());
+            preparedStatement.setInt(5, this.user.getId());
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {
@@ -91,8 +93,8 @@ public class Solution {
             preparedStatement.setDate(1, this.created);
             preparedStatement.setDate(2, this.updated);
             preparedStatement.setString(3, this.description);
-            preparedStatement.setInt(4, this.exerciseId); // pobieramy z pola GR ident GRid
-            preparedStatement.setInt(5, this.usersId); // pobieramy z pola GR ident GRid
+            preparedStatement.setInt(4, this.exercise.getId()); // pobieramy z pola GR ident GRid
+            preparedStatement.setInt(5, this.user.getId()); // pobieramy z pola GR ident GRid
             preparedStatement.setInt(6, this.id); // pobieramy z pola GR ident GRid
             preparedStatement.executeUpdate();
         }
@@ -110,8 +112,8 @@ public class Solution {
             loadedSolution.created = resultSet.getDate("created");
             loadedSolution.updated = resultSet.getDate("updated");
             loadedSolution.description = resultSet.getString("description");
-            loadedSolution.exerciseId = resultSet.getInt("exercise_id");
-            loadedSolution.usersId = resultSet.getInt("users_id");
+            loadedSolution.exercise = Exercise.loadExerciseById(conn, resultSet.getInt("exercise_id"));
+            loadedSolution.user = User.loadUserById(conn, resultSet.getInt("users_id"));
             return loadedSolution;}
         return null;}
 
@@ -127,8 +129,8 @@ public class Solution {
             loadedSolution.created = resultSet.getDate("created");
             loadedSolution.updated = resultSet.getDate("updated");
             loadedSolution.description = resultSet.getString("description");
-            loadedSolution.exerciseId = resultSet.getInt("exercise_id");
-            loadedSolution.usersId = resultSet.getInt("users_id");
+            loadedSolution.exercise = Exercise.loadExerciseById(conn, resultSet.getInt("exercise_id"));  // tu wczytujemy exercise o exerciseId i przekazujemy do javy
+            loadedSolution.user = User.loadUserById(conn, resultSet.getInt("users_id"));// tu wczytujemy user o userId i przekazujemy do javy
             solutions.add(loadedSolution);
         }
         Solution[] solutionArray = new Solution[solutions.size()];
@@ -146,10 +148,16 @@ public class Solution {
         }
     }
 
-    static public Solution[] loadAllByUserId (Connection conn, int user_id) {
-        Solution[] tab = new Solution[20];
+
+//pobranie wszystkich rozwiązań danego użytkownika (dopisz metodę loadAllByUserId do klasy Solution)
+    static public Solution[] loadAllByUserId (Connection conn, int user_id) throws SQLException {
+        ArrayList<Solution> solutions = new ArrayList<Solution>();
+        String sql = "SELECT * FROM exercise WHERE "
+
+        Exercise[] exercises = Exercise.loadAllExercises(conn);
         return tab;
     }
+
 
 
     @Override
@@ -159,8 +167,8 @@ public class Solution {
                 "}, created='" + created + '\'' +
                 ", updated='" + updated + '\'' +
                 ", description='" + description + '\'' +
-                ", exercise_id ='"+ exerciseId + '\'' +
-                ", users_id ='"+usersId + '\'' +
+                ","+ Exercise.toString()+
+                ", "+User.toString() +
                 '}';
     }
 
