@@ -171,12 +171,48 @@ public class Solution {
         solutionArray = solutions.toArray(solutionArray);
         return solutionArray;
     }
-
+    //pobranie wszystkich rozwiązań danego zadania, posortowanych od najnowszego do najstarszego (dopisz metodę loadAllByExerciseId do klasy Solution),
+    static public Solution[] loadAllByExerciseId (Connection conn, int exerciseId) throws SQLException {
+        ArrayList<Solution> solutions = new ArrayList<Solution>();
+        String sql = "SELECT * FROM solution WHERE exercise_id=? ORDER BY created ASC";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1, exerciseId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            Solution loadedSolution = new Solution();
+            loadedSolution.id = resultSet.getInt("id");
+            loadedSolution.created = resultSet.getDate("created");
+            loadedSolution.updated = resultSet.getDate("updated");
+            loadedSolution.description = resultSet.getString("description");
+            loadedSolution.exercise = Exercise.loadExerciseById(conn, resultSet.getInt("exercise_id"));  // tu wczytujemy exercise o exerciseId i przekazujemy do javy
+            loadedSolution.user = User.loadUserById(conn, resultSet.getInt("users_id"));// tu wczytujemy user o userId i przekazujemy do javy
+            solutions.add(loadedSolution);
+        }
+        Solution[] solutionArray = new Solution[solutions.size()];
+        solutionArray = solutions.toArray(solutionArray);
+        return solutionArray;
+    }
 
 
     @Override
     public String toString() {
-        return User.showPrintUser(this.user) + " | " + Exercise.showPrintExercise(this.exercise)+
+        return " |Solution[" + id +
+                "], created='" + created +
+                " | updated='" + updated +
+                " | '" + description + '\''+
+                user.showPrintUser() + " | " + Exercise.showPrintExercise(this.exercise);
+    }
+    public String showByUser() {
+        return " |"+user.showPrintUser() + " | " + Exercise.showPrintExercise(this.exercise)+
+                " | Solution[" + id +
+                "], created='" + created +
+                " | updated='" + updated +
+                " | '" + description + '\'';
+    }
+
+    public String showByExercise() {
+        return " |"+Exercise.showPrintExercise(this.exercise)+" | " +
+                user.showPrintUser() +
                 " | Solution[" + id +
                 "], created='" + created +
                 " | updated='" + updated +

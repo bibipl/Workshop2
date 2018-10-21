@@ -33,14 +33,17 @@ public class Main {
             e.printStackTrace();
         }*/
 //test : dodaj użytkownika
-
 /*
+
+
         try (Connection connection = DbUtil.getConnection()) {
-            User user = new User("Józef Śpąk", "j.spo@onet.pl", "stary", UserGroup.loadUserGroupById(connection,4));
+            User user = new User("Doborah Sung", "j.spo@mail.pl", "china", UserGroup.loadUserGroupById(connection,4));
             user.saveToDB(connection);
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
+*/
+
 /*
 
 // test załąduj po id :
@@ -53,6 +56,7 @@ public class Main {
             e.printStackTrace();
         }
 */
+
 
 /*
 // test   load all oraz modyfikuj.
@@ -118,16 +122,34 @@ public class Main {
         }
 
 */
+   // solutions by Users
         try (Connection connection = DbUtil.getConnection()) {
             Solution[] wynik = Solution.loadAllByUserId(connection,3);
             for (Solution i : wynik) {
-                System.out.println(i);
+                System.out.println(i.showByUser());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+// Solutions by users by Exercise
+        try (Connection connection = DbUtil.getConnection()) {
+            Solution[] wynik = Solution.loadAllByExerciseId(connection,2);
+            for (Solution i : wynik) {
+                System.out.println(i.showByExercise());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//all Users from Group
+        try (Connection connection = DbUtil.getConnection()) {
+            User[] wynik = User.loadAllByGroupUsers(connection,4);
+            for (User i: wynik) {
+                System.out.println(i.showPrintUserByGroup());
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-
     }
-}
+} // last brcke Class

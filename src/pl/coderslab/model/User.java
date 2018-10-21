@@ -121,7 +121,8 @@ public class User {
         }
         User[] uArray = new User[users.size()];
         uArray = users.toArray(uArray);
-        return uArray;}
+        return uArray;
+    }
 
 // usuń usera zBD
     public void delete(Connection conn) throws SQLException {
@@ -133,7 +134,27 @@ public class User {
             this.id = 0;
         }
     }
-
+    //pobranie wszystkich członków danej grupy (dopisz metodę loadAllByGroupId do klasy User)
+    static public User[] loadAllByGroupUsers(Connection conn, int groupId) throws SQLException {
+        ArrayList<User> users = new ArrayList<User>();
+        String sql = "SELECT * FROM users WHERE user_group_id=?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1,groupId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            User loadedUser = new User();
+            loadedUser.id = resultSet.getInt("id");
+            loadedUser.userName = resultSet.getString("username");
+            loadedUser.password = resultSet.getString("password");
+            loadedUser.email = resultSet.getString("email");
+            int usrGoup = resultSet.getInt("user_group_id");        // z user pobranie nr grupy
+            loadedUser.userGroup = UserGroup.loadUserGroupById(conn, usrGoup);   // z user group wczytanie całej grupy
+            users.add(loadedUser);
+        }
+        User[] uArray = new User[users.size()];
+        uArray = users.toArray(uArray);
+        return uArray;
+    }
 
     @Override
     public String toString() {
@@ -144,7 +165,10 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
-    public static String showPrintUser (User user) {
-        return "User["+user.id+"]: "+ user.userName + " | "+user.userGroup.getName();
+    public String showPrintUser () {
+        return "User["+ id +"]: "+ userName + " | "+ userGroup.getName();
+    }
+    public String showPrintUserByGroup () {
+        return " |Group["+userGroup.getId()+"] "+userGroup.getName()+" | User["+ id +"] "+ userName;
     }
 }
