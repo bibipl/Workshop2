@@ -3,7 +3,6 @@ package pl.coderslab;
 import pl.coderslab.model.*;
 import pl.coderslab.util.DbUtil;
 
-import java.sql.Date;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -21,14 +20,14 @@ Program po uruchomieniu wyświetli na konsoli listę wszystkich użytkowników.
         quit – zakończenie programu."
 */
 
-public class UserAdmin {
+public class AdminUSer {
 
     public static void main(String[] args) {
         boolean programEnd = false;
         Scanner scan = new Scanner(System.in);
         while (!programEnd) {
             // wyświetla wszystkich użytkowników
-            System.out.println("\n\nLista wszystkich użytkowników :\n");
+            System.out.println("\n\nLista wszystkich UŻYTKOWNIKÓW :\n");
             try (Connection connection = DbUtil.getConnection()) {
                 User[] allUsers = User.loadAllUsers(connection);
                 for (User i : allUsers) {
@@ -62,8 +61,8 @@ public class UserAdmin {
                         correctOption = true;
                         break;
                     default: {
-                        System.out.println("\nWybierz prawidłową opcję pls.\n");
-                        System.out.println("Lista wszystkich użytkowników :\n");
+                        System.out.println("\nWybierz prawidłową opcję!\n");
+                        System.out.println("Lista wszystkich UŻYTKOWNIKÓW :\n");
                         try (Connection connection = DbUtil.getConnection()) {
                             User[] allUsers = User.loadAllUsers(connection);
                             for (User i : allUsers) {
@@ -88,13 +87,13 @@ public class UserAdmin {
                     break;
                 }
                 case "edit": {
-                    System.out.println("Wybrełeś edit. Podaj nr Użytkownika do poprawy :");
+                    System.out.println("Wybrełeś edit. Podaj nr UŻYTKOWNIKA do poprawy :");
                     int rightId = giveMeRightId();
                     if (rightId != -1) {
                         try (Connection connection = DbUtil.getConnection()) {
                             User user = User.loadUserById(connection, rightId);
                             System.out.println("\nWybrałeś :" + user.showPrintUser());
-                            System.out.println("\n Podaj nowe dane :");
+                            System.out.println("\nPodaj nowe dane :");
                             user = UserReadConsole(user);  // uwaga na błędy wczytywania stringa ??
                             user.saveToDB(connection);
                         } catch (SQLException e) {
@@ -104,7 +103,7 @@ public class UserAdmin {
                     break;
                 }
                 case "delete": {
-                    System.out.println("Wybrełeś delete. Podaj nr Użytkownika do skasowania :");
+                    System.out.println("Wybrełeś delete. Podaj nr UŻYTKOWNIKA do skasowania :");
                     int rightId = giveMeRightId();
                     if (rightId != -1) {
                         try (Connection connection = DbUtil.getConnection()) {
@@ -133,9 +132,9 @@ public class UserAdmin {
 
     private static User UserReadConsole(User user) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Podaj Nazwę użytkownika");
+        System.out.println("Podaj Nazwę UŻYTKOWNIKA");
         user.setName(scanner.nextLine());
-        System.out.println("Podaj email użytkownika");
+        System.out.println("Podaj email UŻYTKOWNIKA");
         user.setEmail(scanner.nextLine());
         System.out.println("Podaj hasło");
         user.setPassword(scanner.nextLine());
@@ -144,7 +143,7 @@ public class UserAdmin {
         boolean rightGroup = false;
         while (!rightGroup) {
             try (Connection connection = DbUtil.getConnection()) {   // pokazujemy grupy :
-                System.out.println("/nWybierz grupę podając jej numer : ");
+                System.out.println("/nWybierz GRUPĘ podając jej numer : ");
                 UserGroup[] allUsG = UserGroup.loadAllUserGroups(connection);
                 for (UserGroup i : allUsG) {
                     System.out.println(i);
@@ -160,12 +159,12 @@ public class UserAdmin {
             scanner.nextLine(); // clear buffer
             try (Connection connection = DbUtil.getConnection()) {   // pokazujemy grupy :
                 UserGroup usG = UserGroup.loadUserGroupById(connection, id);
-                System.out.println("Wybrałeś grupę :");
+                System.out.println("Wybrałeś GRUPĘ :");
                 System.out.println(usG.toString());
                 rightGroup = true;
                 user.setGroup(usG);
             } catch (SQLException e) {
-                System.out.println("Nie ma takiej grupy. Spróbuj ponownie");
+                System.out.println("Nie ma takiej GRUPY. Spróbuj ponownie");
             }
         }
         System.out.println("Nowe dane to :");
@@ -179,7 +178,7 @@ public class UserAdmin {
         boolean rightId = false;
         while (!rightId) { // get right id
             while (!scanner.hasNextInt()) {  //get int number
-                System.out.println("Podaj id użytkownika :");
+                System.out.println("Podaj id UŻYTKOWNIKA :");
                 id = scanner.nextInt();
                 scanner.nextLine(); // clear buffer
             } // we have int number
@@ -189,10 +188,10 @@ public class UserAdmin {
                 User user = User.loadUserById(connection, id);
                 rightId = true; // wczytano bez błędu czyli jest taki użytkownik
             } catch (SQLException e) {
-                System.out.println("Nie ma użytkownika o takim id");
+                System.out.println("Nie ma UŻYTKOWNIKA o takim id");
                 id = -1;
             }
-        } // while 1
+        } // while NR1
         return id;
     }
 

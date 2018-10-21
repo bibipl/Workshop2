@@ -1,4 +1,4 @@
-package pl.coderslab.util;
+package pl.coderslab;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,13 +20,13 @@ Następnie wyświetli w konsoli napis
     quit – zakończenie programu."
 */
 
-    public class ExerciseAdmin {
+    public class AdminExercise {
         public static void main(String[] args) {
             boolean programEnd = false;
             Scanner scan = new Scanner(System.in);
             while (!programEnd) {
                 // wyświetla wszystkie ćwiczenia
-                System.out.println("\n\nLista wszystkich ćwiczeń :\n");
+                System.out.println("\n\nLista wszystkich ĆWICZEŃ :\n");
                 try (Connection connection = DbUtil.getConnection()) {
                     Exercise[] allExercises = Exercise.loadAllExercises(connection);
                     for (Exercise i : allExercises) {
@@ -61,7 +61,7 @@ Następnie wyświetli w konsoli napis
                             break;
                         default: {
                             System.out.println("\nWybierz prawidłową opcję pls.\n");
-                            System.out.println("Lista wszystkich ćwiczeń :\n");
+                            System.out.println("Lista wszystkich ĆWICZEŃ :\n");
                             try (Connection connection = DbUtil.getConnection()) {
                                 Exercise[] allExercises = Exercise.loadAllExercises(connection);
                                 for (Exercise i : allExercises) {
@@ -86,13 +86,13 @@ Następnie wyświetli w konsoli napis
                         break;
                     }
                     case "edit": {
-                        System.out.println("Wybrełeś edit. Podaj nr ćwiczenia do edycji :");
+                        System.out.println("Wybrełeś edit. Podaj nr ĆWICZENIA do edycji :");
                         int rightId = giveMeRightId();
                         if (rightId != -1) {
                             try (Connection connection = DbUtil.getConnection()) {
                                 Exercise exercise = Exercise.loadExerciseById(connection, rightId);
                                 System.out.println("\nWybrałeś :" + exercise.showPrintExercise());
-                                System.out.println("\n Podaj nowe dane :");
+                                System.out.println("\nPodaj nowe dane :");
                                 exercise = exerciseReadConsole(exercise);  // uwaga na błędy wczytywania stringa ??
                                 exercise.saveToDB(connection);
                             } catch (SQLException e) {

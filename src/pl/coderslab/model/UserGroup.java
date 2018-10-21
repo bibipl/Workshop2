@@ -88,11 +88,13 @@ public class UserGroup {
     }
 
         public String toString() {
-            return "User Group[" +
+            return "Group[" +
                     id +
-                    "] Group name: '" + name+"'";
+                    "] " + name;
         }
-
+    public String showPrintUserGroup () {
+        return "Group["+id+"]: "+ name ;
+    }
 
 } // ## Class bracket.
 
