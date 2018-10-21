@@ -57,11 +57,11 @@ public class Solution {
         this.description = description;
     }
 
-    public int getExcercise_id() {
+    public Exercise getExcercise_id() {
         return exercise;
     }
-    public void setExcercise_id(int excercise_id) {
-        this.exercise = excercise_id;
+    public void setExcercise_id(Exercise excercise) {
+        this.exercise = excercise;
     }
 
     public User getUser() {
@@ -135,7 +135,8 @@ public class Solution {
         }
         Solution[] solutionArray = new Solution[solutions.size()];
         solutionArray = solutions.toArray(solutionArray);
-        return solutionArray;}
+        return solutionArray;
+    }
 
     // usuń exercise zBD
     public void delete(Connection conn) throws SQLException {
@@ -150,26 +151,36 @@ public class Solution {
 
 
 //pobranie wszystkich rozwiązań danego użytkownika (dopisz metodę loadAllByUserId do klasy Solution)
-    static public Solution[] loadAllByUserId (Connection conn, int user_id) throws SQLException {
+    static public Solution[] loadAllByUserId (Connection conn, int userId) throws SQLException {
         ArrayList<Solution> solutions = new ArrayList<Solution>();
-        String sql = "SELECT * FROM exercise WHERE "
-
-        Exercise[] exercises = Exercise.loadAllExercises(conn);
-        return tab;
+        String sql = "SELECT * FROM solution WHERE users_id=?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1, userId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            Solution loadedSolution = new Solution();
+            loadedSolution.id = resultSet.getInt("id");
+            loadedSolution.created = resultSet.getDate("created");
+            loadedSolution.updated = resultSet.getDate("updated");
+            loadedSolution.description = resultSet.getString("description");
+            loadedSolution.exercise = Exercise.loadExerciseById(conn, resultSet.getInt("exercise_id"));  // tu wczytujemy exercise o exerciseId i przekazujemy do javy
+            loadedSolution.user = User.loadUserById(conn, resultSet.getInt("users_id"));// tu wczytujemy user o userId i przekazujemy do javy
+            solutions.add(loadedSolution);
+        }
+        Solution[] solutionArray = new Solution[solutions.size()];
+        solutionArray = solutions.toArray(solutionArray);
+        return solutionArray;
     }
 
 
 
     @Override
     public String toString() {
-        return "Solution{" +
-                "id=" + id +
-                "}, created='" + created + '\'' +
-                ", updated='" + updated + '\'' +
-                ", description='" + description + '\'' +
-                ","+ Exercise.toString()+
-                ", "+User.toString() +
-                '}';
+        return User.showPrintUser(this.user) + " | " + Exercise.showPrintExercise(this.exercise)+
+                " | Solution[" + id +
+                "], created='" + created +
+                " | updated='" + updated +
+                " | '" + description + '\'';
     }
 
 

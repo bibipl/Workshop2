@@ -74,7 +74,7 @@ public class Exercise {
         if (resultSet.next()) {
             Exercise loadedExercise = new Exercise();
             loadedExercise.id = resultSet.getInt("id");
-            loadedExercise.title = resultSet.getString("name");
+            loadedExercise.title = resultSet.getString("title");
             loadedExercise.description = resultSet.getString("description");
             return loadedExercise;
         }
@@ -118,5 +118,8 @@ public class Exercise {
                 "';";
     }
 
+    public static String showPrintExercise (Exercise exercise) {
+        return "Exercise["+exercise.id+"]: "+ exercise.title + " | "+exercise.description+" ";
+    }
 
 } //last bracket;

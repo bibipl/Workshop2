@@ -99,7 +99,7 @@ public class Main {
         Date date=Date.valueOf(str);//converting string into sql date
         System.out.println(date);
 */
-        // dodaj solution
+   /*     // dodaj solution
         try (Connection connection = DbUtil.getConnection()) {
             Solution solution=new Solution (Date.valueOf("2018-10-12"),Date.valueOf("2018-10-22"),"Zaliczone 12.5/10",3,2);
             solution.saveToDB(connection);
@@ -117,6 +117,15 @@ public class Main {
             e.printStackTrace();
         }
 
+*/
+        try (Connection connection = DbUtil.getConnection()) {
+            Solution[] wynik = Solution.loadAllByUserId(connection,3);
+            for (Solution i : wynik) {
+                System.out.println(i);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
 

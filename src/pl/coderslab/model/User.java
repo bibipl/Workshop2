@@ -144,4 +144,7 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+    public static String showPrintUser (User user) {
+        return "User["+user.id+"]: "+ user.userName + " | "+user.userGroup.getName();
+    }
 }
