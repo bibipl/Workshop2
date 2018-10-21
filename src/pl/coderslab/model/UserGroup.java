@@ -88,10 +88,9 @@ public class UserGroup {
     }
 
         public String toString() {
-            return "User Group{" +
-                    "id=" + id +
-                    "}, Group name='" + name +
-                    "'}";
+            return "User Group[" +
+                    id +
+                    "] Group name: '" + name+"'";
         }
 
 

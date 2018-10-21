@@ -28,7 +28,7 @@ public class UserAdmin {
         Scanner scan = new Scanner(System.in);
         while (!programEnd) {
             // wyświetla wszystkich użytkowników
-            System.out.println("Lista wszystkich użytkowników :\n");
+            System.out.println("\n\nLista wszystkich użytkowników :\n");
             try (Connection connection = DbUtil.getConnection()) {
                 User[] allUsers = User.loadAllUsers(connection);
                 for (User i : allUsers) {
@@ -78,7 +78,8 @@ public class UserAdmin {
 
             switch (option) {
                 case "add": {
-                    User user = UserReadConsole();
+                    User user = new User();
+                    user = UserReadConsole(user);
                     try (Connection connection = DbUtil.getConnection()) {
                         user.saveToDB(connection);
                     } catch (SQLException e) {
@@ -92,10 +93,9 @@ public class UserAdmin {
                     if (rightId != -1) {
                         try (Connection connection = DbUtil.getConnection()) {
                             User user = User.loadUserById(connection, rightId);
-                            int id = user.getId();
                             System.out.println("\nWybrałeś :" + user.showPrintUser());
                             System.out.println("\n Podaj nowe dane :");
-                            user = UserReadConsole();  // uwaga na błędy wczytywania stringa ??
+                            user = UserReadConsole(user);  // uwaga na błędy wczytywania stringa ??
                             user.saveToDB(connection);
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -131,15 +131,14 @@ public class UserAdmin {
         scan.close();
     } // psvm
 
-    private static User UserReadConsole() {
+    private static User UserReadConsole(User user) {
         Scanner scanner = new Scanner(System.in);
-        User usr = new User();
         System.out.println("Podaj Nazwę użytkownika");
-        usr.setName(scanner.nextLine());
+        user.setName(scanner.nextLine());
         System.out.println("Podaj email użytkownika");
-        usr.setEmail(scanner.nextLine());
+        user.setEmail(scanner.nextLine());
         System.out.println("Podaj hasło");
-        usr.setPassword(scanner.nextLine());
+        user.setPassword(scanner.nextLine());
 
 
         boolean rightGroup = false;
@@ -164,12 +163,14 @@ public class UserAdmin {
                 System.out.println("Wybrałeś grupę :");
                 System.out.println(usG.toString());
                 rightGroup = true;
-                usr.setGroup(usG);
+                user.setGroup(usG);
             } catch (SQLException e) {
                 System.out.println("Nie ma takiej grupy. Spróbuj ponownie");
             }
         }
-        return usr;
+        System.out.println("Nowe dane to :");
+        System.out.println(user);
+        return user;
     }
 
     private static int giveMeRightId() {

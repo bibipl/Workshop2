@@ -76,12 +76,14 @@ public class User {
                 this.id = rs.getInt(1);
             }
         } else {
-            String sql = "UPDATE users SET username=?, email=?, password=? where id = ?";
+            String sql = "UPDATE users SET username=?, email=?, password=?, user_group_id=? WHERE id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, this.userName);
             preparedStatement.setString(2, this.email);
             preparedStatement.setString(3, this.password);
             preparedStatement.setInt(4, this.userGroup.getId()); // pobieramy z pola GR ident GRid
+            preparedStatement.setInt(5, this.getId()); // pobieramy z pola GR ident GRid
+
             preparedStatement.executeUpdate();
         }
     }
@@ -156,12 +158,13 @@ public class User {
         return uArray;
     }
 
+
     @Override
     public String toString() {
         return "User[" + id + "] "+
                 userName + " | " +
                 email + " | " +
-                password + " | " + "Group[ "+
+                password + " | " + "Group["+
                 userGroup.getId() + "] " +
                 userGroup.getName();
     }
