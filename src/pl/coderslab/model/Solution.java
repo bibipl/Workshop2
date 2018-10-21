@@ -67,7 +67,7 @@ public class Solution {
     public User getUser() {
         return user;
     }
-    public void setUser(User users) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -88,7 +88,7 @@ public class Solution {
                 this.id = rs.getInt(1);
             }
         } else {
-            String sql = "UPDATE solution SET created=?, updated=?, description=?, excercise_id=?, users_id=? where id = ?";
+            String sql = "UPDATE solution SET created=?, updated=?, description=?, exercise_id=?, users_id=? where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setDate(1, this.created);
             preparedStatement.setDate(2, this.updated);
@@ -118,7 +118,7 @@ public class Solution {
         return null;}
 
     // Wczytaj wszystkich z BD
-    static public Solution[] loadAllsolutions(Connection conn) throws SQLException {
+    static public Solution[] loadAllSolutions(Connection conn) throws SQLException {
         ArrayList<Solution> solutions = new ArrayList<Solution>();
         String sql = "SELECT * FROM solution";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -218,7 +218,9 @@ public class Solution {
                 " | updated='" + updated +
                 " | '" + description + '\'';
     }
-
+    public String showPrintSolution () {
+        return "Solution["+ id +"]: "+ user.getName()+ " | "+ user.getGroup() + " | "+exercise.getTitle();
+    }
 
 
 } // last class bracket
