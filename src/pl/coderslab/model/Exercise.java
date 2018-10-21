@@ -31,7 +31,6 @@ public class Exercise {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -39,7 +38,6 @@ public class Exercise {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -57,7 +55,7 @@ public class Exercise {
                 this.id = rs.getInt(1);
             }
         } else {
-            String sql = "UPDATE exercise SET name=?, description=? where id = ?";
+            String sql = "UPDATE exercise SET title=?, description=? where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, this.title);
             preparedStatement.setString(2, this.description);
@@ -111,15 +109,14 @@ public class Exercise {
     }
 
     public String toString() {
-        return "Exercise{" +
-                "id=" + id +
-                "}, title='" + title +
-                "' | description : '" + description +
-                "';";
+        return "Exercise [" +
+                id + "] "+
+                title + " | "+
+                description;
     }
 
-    public static String showPrintExercise (Exercise exercise) {
-        return "Exercise["+exercise.id+"]: "+ exercise.title + " | "+exercise.description+" ";
+    public String showPrintExercise () {
+        return "Exercise["+id+"]: "+ title + " | "+description+" ";
     }
 
 } //last bracket;

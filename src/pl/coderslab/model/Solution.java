@@ -200,10 +200,10 @@ public class Solution {
                 "], created='" + created +
                 " | updated='" + updated +
                 " | '" + description + '\''+
-                user.showPrintUser() + " | " + Exercise.showPrintExercise(this.exercise);
+                user.showPrintUser() + " | " + exercise.showPrintExercise();
     }
     public String showByUser() {
-        return " |"+user.showPrintUser() + " | " + Exercise.showPrintExercise(this.exercise)+
+        return " |"+user.showPrintUser() + " | " + exercise.showPrintExercise()+
                 " | Solution[" + id +
                 "], created='" + created +
                 " | updated='" + updated +
@@ -211,7 +211,7 @@ public class Solution {
     }
 
     public String showByExercise() {
-        return " |"+Exercise.showPrintExercise(this.exercise)+" | " +
+        return " |"+exercise.showPrintExercise()+" | " +
                 user.showPrintUser() +
                 " | Solution[" + id +
                 "], created='" + created +
