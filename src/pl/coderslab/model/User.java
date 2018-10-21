@@ -158,12 +158,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                "}, userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "User[" + id + "] "+
+                userName + " | " +
+                email + " | " +
+                password + " | " + "Group[ "+
+                userGroup.getId() + "] " +
+                userGroup.getName();
     }
     public String showPrintUser () {
         return "User["+ id +"]: "+ userName + " | "+ userGroup.getName();

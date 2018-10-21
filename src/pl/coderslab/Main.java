@@ -2,7 +2,6 @@ package pl.coderslab;
 
 import pl.coderslab.model.*;
 import pl.coderslab.util.DbUtil;
-
 import java.sql.Date;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -42,7 +41,9 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 */
+
 
 /*
 
@@ -122,7 +123,7 @@ public class Main {
         }
 
 */
-   // solutions by Users
+/*   // solutions by Users
         try (Connection connection = DbUtil.getConnection()) {
             Solution[] wynik = Solution.loadAllByUserId(connection,3);
             for (Solution i : wynik) {
@@ -150,6 +151,6 @@ public class Main {
             e.printStackTrace();
         }
 
-
-    }
-} // last brcke Class
+*/
+    } // void main
+} // last bracket Class
